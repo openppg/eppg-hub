@@ -1,0 +1,6 @@
+..\Debug\HUB.hex          # input file
+-Intel
+-Offset -0x08008000
+-Output 
+..\Debug\HUB.bin
+-Binary                            # dump in binary format

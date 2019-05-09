@@ -1,0 +1,8 @@
+..\Debug\OpenPPG_HUB.hex          # input file
+-Intel
+-fill 0xFF 0x08008000 0x0801F800   #Actual address range is 0x08008000 to 0x0801F800, but we have to subtract 0x08008000 since it's in binary format
+-crop 0x08008000 0x0801F7FC        # Calculate crc over app range -4 (crc will be placed in last 4 bytes of app space)
+-STM32 0x0801F7FC                  # calculate STM32 crc and place in last 4 bytes of app space
+-Output 
+..\Debug\HUB.hex
+-Intel
