@@ -91,6 +91,22 @@ typedef enum
 
 }ESC_STATUS;
 
+#define EMA_UI32_ALPHA(x) ( (uint16_t)(x * 65535) )
+#define EMA_CURRENT_ALPLHA	EMA_UI32_ALPHA(0.05)
+#define EMA_RPM_ALPLHA	EMA_UI32_ALPHA(0.05)
+
+inline uint32_t ema_u32(uint32_t in, uint32_t average, uint16_t alpha){
+  int64_t tmp0; //calcs must be done in 64-bit math to avoid overflow
+  tmp0 = (int64_t)in * (alpha) + (int64_t)average * (65536 - alpha);
+  return (uint32_t)((tmp0 + 32768) / 65536); //scale back to 32-bit (with rounding)
+}
+
+inline uint16_t ema_u16(uint16_t in, uint16_t average, uint16_t alpha){
+  int64_t tmp0; //calcs must be done in 64-bit math to avoid overflow
+  tmp0 = (int64_t)in * (alpha) + (int64_t)average * (65536 - alpha);
+  return (uint16_t)((tmp0 + 32768) / 65536); //scale back to 32-bit (with rounding)
+}
+
 void escInit();
 uint8_t escParseData(uint8_t *data, uint8_t size, uint8_t escIndex);
 

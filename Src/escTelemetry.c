@@ -109,6 +109,7 @@ uint32_t escGetTotalMah()
 
 uint32_t escGetTotalCurrent()
 {
+	static uint32_t avgCurrent = 0;
 	uint32_t totalCurrent = 0;
 	uint8_t validValues = 0;
 	for(uint8_t i = 0; i<NUM_ESCS; i++)
@@ -119,11 +120,13 @@ uint32_t escGetTotalCurrent()
 			totalCurrent += escData[i].current;
 		}
 	}
-	return totalCurrent;
+	avgCurrent = ema_u32(totalCurrent, avgCurrent, EMA_CURRENT_ALPLHA);
+	return avgCurrent;
 }
 
 uint16_t escGetAvgRpm()
 {
+	static uint16_t avgRpmEma = 0;
 	uint16_t avgRpm = 0;
 	uint8_t validValues = 0;
 	for(uint8_t i = 0; i<NUM_ESCS; i++)
@@ -135,7 +138,8 @@ uint16_t escGetAvgRpm()
 		}
 	}
 	avgRpm = avgRpm/validValues;
-	return avgRpm;
+	avgRpmEma = ema_u16(avgRpm, avgRpmEma, EMA_RPM_ALPLHA);
+	return avgRpmEma;
 }
 
 uint8_t escGetAvgCapTemp()
