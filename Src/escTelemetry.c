@@ -120,7 +120,7 @@ uint32_t escGetTotalCurrent()
 			totalCurrent += escData[i].current;
 		}
 	}
-	avgCurrent = ema_u32(totalCurrent, avgCurrent, EMA_CURRENT_ALPLHA);
+	avgCurrent = ema_u32(totalCurrent, avgCurrent, EMA_CURRENT_ALPHA);
 	return avgCurrent;
 }
 
@@ -138,7 +138,7 @@ uint16_t escGetAvgRpm()
 		}
 	}
 	avgRpm = avgRpm/validValues;
-	avgRpmEma = ema_u16(avgRpm, avgRpmEma, EMA_RPM_ALPLHA);
+	avgRpmEma = ema_u16(avgRpm, avgRpmEma, EMA_RPM_ALPHA);
 	return avgRpmEma;
 }
 

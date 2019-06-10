@@ -92,8 +92,8 @@ typedef enum
 }ESC_STATUS;
 
 #define EMA_UI32_ALPHA(x) ( (uint16_t)(x * 65535) )
-#define EMA_CURRENT_ALPLHA	EMA_UI32_ALPHA(0.05)
-#define EMA_RPM_ALPLHA	EMA_UI32_ALPHA(0.05)
+#define EMA_CURRENT_ALPHA	EMA_UI32_ALPHA(0.05)
+#define EMA_RPM_ALPHA	EMA_UI32_ALPHA(0.05)
 
 inline uint32_t ema_u32(uint32_t in, uint32_t average, uint16_t alpha){
   int64_t tmp0; //calcs must be done in 64-bit math to avoid overflow
