@@ -110,7 +110,7 @@ void SystemClock_Config(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-uint8_t armedState = 1; //TODO DEFAULT THIS BACK TO 0!!! ONLY 1 FOR DEBUGGING DATA LOGGING
+uint8_t armedState = 0;
 uint8_t baroState = 0;
 uint8_t imuState = 0;
 uint8_t magState = 0;
