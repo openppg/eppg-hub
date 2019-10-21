@@ -277,6 +277,7 @@ int main(void)
 			  //logStatus = logWriteData(fileName, (uint8_t*)logData, (i+1)*256, bytesWritten);
 			  //debugTime[i] = HAL_GetTick() - startWriteTime;
 		  }
+
 		  if(strlen(logData)>1)
 		  {
 			  logStatus = logWriteData((uint8_t*)logData, strlen(logData), bytesWritten);
@@ -284,6 +285,12 @@ int main(void)
 		  }
 
 	  }
+
+
+	  float pressure,temp;
+	  baroReadPressTemp(&pressure,&temp);
+
+	  // using break point to view the result
   }
   /* USER CODE END 3 */
 }
