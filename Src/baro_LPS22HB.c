@@ -34,14 +34,14 @@ void baroReadPressTemp(float *pressure, float *temperature)
 	}
 
 	// read back all value registers( total 5)
-	uint8_t dataTx[6];
-	uint8_t dataRx[6];
-	memset(dataTx, 0xFF, sizeof(dataTx));
 
-	dataTx[0] = (REG_PRESS_OUT_XL & 0x7F) | 0x80;
-	SPI_BARO_SELECT;
-	SPIx_WriteReadData(dataTx, dataRx, sizeof(dataTx));
-	SPI_BARO_DESELECT;
+	uint8_t dataRx[6];
+
+	for(int i=0;i<5;i++)
+	{
+		dataRx[i+1]=baroReadReg(i+REG_PRESS_OUT_XL);
+	}
+
 
 	int32_t unscaled_pressure=dataRx[1]|(dataRx[2]<<8)|(dataRx[3]<<16);
 
