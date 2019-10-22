@@ -11,6 +11,8 @@
 #include "tim.h"
 #include "escTelemetry.h"
 
+#include "baro_LPS22HB.h"
+
 static STR_CTRL2HUB_MSG controlData;
 static STR_HUB2CTRL_MSG hubData;
 static uint8_t armed = 0;
@@ -73,6 +75,9 @@ void sendHubData()
 	hubData.avgRpm = escGetAvgRpm();
 	hubData.avgCapTemp = escGetAvgCapTemp();
 	hubData.avgFetTemp = escGetAvgFetTemp();
+
+	baroReadPressTemp(&hubData.baroPressure,&hubData.baroTemp);
+
 	hubData.crc = crc16((uint8_t*)&hubData, sizeof(STR_HUB2CTRL_MSG) - 2);
 
 	sendToController((uint8_t*)&hubData, sizeof(STR_HUB2CTRL_MSG));

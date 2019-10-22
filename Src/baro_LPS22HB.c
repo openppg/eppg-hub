@@ -9,18 +9,31 @@
 #include "baro_LPS22HB.h"
 #include "spi.h"
 
+static uint8_t baroInitOk=0;
+
 uint8_t baroInit()
 {
 	if(baroReadReg(REG_WHOAMI) != WHO_AM_I_LPS22HB)
+	{
+		baroInitOk=0;
 		return 0;
+	}
 
 	//baroWriteReg()
 
+	baroInitOk=1;
 	return 1;
 }
 
-void baroReadPressTemp(float *pressure, float *temperature)
+void baroReadPressTemp(uint32_t *pressure, int16_t *temperature)
 {
+	if(!baroInitOk)
+	{
+		*pressure=0xffffffff;
+		*temperature=-32000;
+		return;
+	}
+
 	baroWriteReg(REG_CTRL_REG2,0x01);// start one shot conversion
 
 	HAL_Delay(15);// wait 15 ms
@@ -51,10 +64,10 @@ void baroReadPressTemp(float *pressure, float *temperature)
 		unscaled_pressure |= 0xFF000000;
 	}
 
-	*pressure=(float)unscaled_pressure*100.0f/4096.0f;
+	*pressure=unscaled_pressure*100/4096;
 
 	int16_t unscaled_temperature=dataRx[4]|(dataRx[5]<<8);
-	*temperature=(float)unscaled_temperature/100.0f;
+	*temperature=unscaled_temperature;
 }
 
 void baroWriteReg(uint8_t regAddr, uint8_t data)

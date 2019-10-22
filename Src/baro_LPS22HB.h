@@ -43,6 +43,6 @@ typedef enum
 uint8_t baroInit();
 void baroWriteReg(uint8_t regAddr, uint8_t data);
 uint8_t baroReadReg(uint8_t regAddr);
-void baroReadPressTemp(float *pressure, float *temperature);
+void baroReadPressTemp(uint32_t *pressure, int16_t *temperature);
 
 #endif /* BARO_LPS22HB_H_ */

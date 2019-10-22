@@ -286,11 +286,6 @@ int main(void)
 
 	  }
 
-
-	  float pressure,temp;
-	  baroReadPressTemp(&pressure,&temp);
-
-	  // using break point to view the result
   }
   /* USER CODE END 3 */
 }
