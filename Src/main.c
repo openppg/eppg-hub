@@ -65,6 +65,7 @@
 #include "flash.h"
 #include "controllerInterface.h"
 #include "baro_LPS22HB.h"
+#include "baro_proc.h"
 #include "imu_LSM9DS1.h"
 /* USER CODE END Includes */
 
@@ -181,6 +182,8 @@ int main(void)
   IWDG_SetPrescaler(IWDG_PRESCALER_32);
   WDT_RESET;
 
+  baroAvgInit();
+
   HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_1);
   HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_2);
   HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_3);
@@ -258,6 +261,17 @@ int main(void)
 
 	  }
 
+	  static const uint32_t baroSampleInterval = 250;
+	  static uint32_t lastBaroSampleTime = 0;
+
+	  if(currentTime - lastBaroSampleTime > baroSampleInterval)
+	  {
+		  lastBaroSampleTime=currentTime;
+
+		  baroSample();
+	  }
+
+
 	  //Log data in CSV format
 	  if(logStatus == FR_OK && armedState)
 	  {
@@ -277,6 +291,9 @@ int main(void)
 			  //logStatus = logWriteData(fileName, (uint8_t*)logData, (i+1)*256, bytesWritten);
 			  //debugTime[i] = HAL_GetTick() - startWriteTime;
 		  }
+
+		  // write pressure to log
+		  sprintf(logData+strlen(logData), "pressure %u\n", baroGetAvg());
 
 		  if(strlen(logData)>1)
 		  {
