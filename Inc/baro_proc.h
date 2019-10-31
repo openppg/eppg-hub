@@ -11,5 +11,6 @@
 void baroAvgInit();
 void baroSample();
 uint32_t baroGetAvg();
+int16_t baroGetTempAvg();
 
 #endif /* BARO_PROC_H_ */

@@ -25,7 +25,7 @@ uint8_t baroInit()
 	return 1;
 }
 
-uint32_t baroReadPressTemp()
+uint32_t baroReadPressTemp(int16_t *temperature)
 {
 	if(!baroInitOk)
 	{
@@ -62,11 +62,13 @@ uint32_t baroReadPressTemp()
 		unscaled_pressure |= 0xFF000000;
 	}
 
-	return unscaled_pressure*100/4096;
 
-	//int16_t unscaled_temperature=dataRx[4]|(dataRx[5]<<8);
-	//*temperature=unscaled_temperature;
+	int16_t unscaled_temperature=dataRx[4]|(dataRx[5]<<8);
+	*temperature=unscaled_temperature;
+
+	return unscaled_pressure*100/4096;
 }
+
 
 void baroWriteReg(uint8_t regAddr, uint8_t data)
 {

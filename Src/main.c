@@ -293,7 +293,7 @@ int main(void)
 		  }
 
 		  // write pressure to log
-		  sprintf(logData+strlen(logData), "pressure %u\n", baroGetAvg());
+		  sprintf(logData+strlen(logData), "pressure %u  temp %d\n", baroGetAvg(), baroGetTempAvg());
 
 		  if(strlen(logData)>1)
 		  {

@@ -76,6 +76,7 @@ void sendHubData()
 	hubData.avgCapTemp = escGetAvgCapTemp();
 	hubData.avgFetTemp = escGetAvgFetTemp();
 
+	hubData.baroTemp = baroGetTempAvg();
 	hubData.baroPressure = baroGetAvg();
 
 	hubData.crc = crc16((uint8_t*)&hubData, sizeof(STR_HUB2CTRL_MSG) - 2);
