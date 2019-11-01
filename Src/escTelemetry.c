@@ -20,7 +20,7 @@ void escInit()
 		escData[i].timeStamp = 0;
 		escData[i].packetNum = 0;
 	}
-	//Future esc's might require some sort of telemetry initialization data exchange
+	// Future esc's might require some sort of telemetry initialization data exchange
 }
 
 ESC_STATUS escParseData(uint8_t *data, uint8_t size, uint8_t escIndex)
@@ -29,7 +29,6 @@ ESC_STATUS escParseData(uint8_t *data, uint8_t size, uint8_t escIndex)
 	//if(size > ESC_HW_XROTOR_PACKET_LENGTH || escIndex > NUM_ESCS)
 	//	return ESC_STATUS_INVALID_DATA;
 
-	//memcpy((uint8_t*)&escPacket, data, size);
 	uint32_t currentTime = HAL_GetTick();
 	static uint32_t lastTime[NUM_ESCS];
 	static uint32_t mahRaw[NUM_ESCS];

@@ -1,8 +1,6 @@
 /*
  * baro_LPS22HB.c
  *
- *  Created on: Feb 12, 2019
- *      Author: MiguelFAlvarez
  */
 
 #include "main.h"
@@ -19,8 +17,6 @@ uint8_t baroInit()
 		return 0;
 	}
 
-	//baroWriteReg()
-
 	baroInitOk=1;
 	return 1;
 }
@@ -34,7 +30,7 @@ uint32_t baroReadPressTemp(int16_t *temperature)
 
 	baroWriteReg(REG_CTRL_REG2,0x01);// start one shot conversion
 
-	HAL_Delay(15);// wait 15 ms
+	HAL_Delay(15); // wait 15 ms
 
 	int status=baroReadReg(REG_STATUS);
 
@@ -44,7 +40,7 @@ uint32_t baroReadPressTemp(int16_t *temperature)
 		status=baroReadReg(REG_STATUS);
 	}
 
-	// read back all value registers( total 5)
+	// read back all value registers (total 5)
 
 	uint8_t dataRx[6];
 

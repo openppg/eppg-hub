@@ -12,7 +12,7 @@
 
 //#define INTERFACE_CONTROLLER
 #define INTERFACE_HUB
-#define CTRL_VER 0x00
+#define CTRL_VER 0x01
 #define CTRL2HUB_ID	0x10
 #define HUB2CTRL_ID 0x20
 
@@ -23,7 +23,7 @@ typedef struct
 	uint8_t id;
 	uint8_t length;
 	uint8_t armed;
-	uint16_t throttlePercent;	//0 to 1000
+	uint16_t throttlePercent; //0 to 1000
 	uint16_t crc;
 }STR_CTRL2HUB_MSG;
 
@@ -39,10 +39,8 @@ typedef struct
 	uint16_t avgRpm;
 	uint8_t avgCapTemp;
 	uint8_t avgFetTemp;
-
-	int16_t baroTemp;
-	uint32_t baroPressure;
-
+	int16_t baroTemp; // degrees c
+	uint32_t baroPressure; // hpa
 	uint16_t crc;
 }STR_HUB2CTRL_MSG;
 

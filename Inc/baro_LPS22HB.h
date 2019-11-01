@@ -1,8 +1,6 @@
 /*
  * baro_LPS22HB.h
  *
- *  Created on: Feb 12, 2019
- *      Author: MiguelFAlvarez
  */
 
 #ifndef BARO_LPS22HB_H_
@@ -28,7 +26,6 @@ typedef enum
 
 	REG_TEMP_OUT_L=0x2B,
 	REG_TEMP_OUT_H=0x2C,
-
 
 }BARO_REGS;
 

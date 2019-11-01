@@ -7,7 +7,10 @@ static uint32_t baro_value[BARO_AVG_COUNT];
 static uint32_t baro_temp_value[BARO_AVG_COUNT];
 static int32_t baro_value_idx;
 
-
+/**
+  * @brief Initialize baro (LPS22HB)
+  * @retval None
+  */
 void baroAvgInit()
 {
 	int16_t init_temp_value;

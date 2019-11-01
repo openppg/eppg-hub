@@ -30,10 +30,7 @@ void sendControlData(uint8_t armed, uint16_t throttlePercent)
 	UART_RS485_BeginTransmit(HUB_UART, HUB_TX_DMA, HUB_TX_DMA_CH, (uint8_t*)&controlData, sizeof(STR_CTRL2HUB_MSG));
 }
 
-void receiveHubData(uint8_t *buf, uint32_t size)
-{
-
-}
+void receiveHubData(uint8_t *buf, uint32_t size){}
 #endif
 
 #ifdef INTERFACE_HUB
