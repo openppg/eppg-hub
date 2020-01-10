@@ -14,9 +14,6 @@ uint8_t imuInit()
 	if(imuReadReg(REG_IMU_WHOAMI) != WHO_AM_I_LSM9DS1_IMU)
 		return 0;
 
-
-	//imuWriteReg()
-
 	return 1;
 }
 
@@ -43,8 +40,6 @@ uint8_t magInit()
 {
 	if(magReadReg(REG_MAG_WHOAMI) != WHO_AM_I_LSM9DS1_MAG)
 		return 0;
-
-	//magWriteReg()
 
 	return 1;
 }

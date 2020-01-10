@@ -65,6 +65,7 @@
 #include "flash.h"
 #include "controllerInterface.h"
 #include "baro_LPS22HB.h"
+#include "baro_proc.h"
 #include "imu_LSM9DS1.h"
 /* USER CODE END Includes */
 
@@ -181,6 +182,8 @@ int main(void)
   IWDG_SetPrescaler(IWDG_PRESCALER_32);
   WDT_RESET;
 
+  baroAvgInit();
+
   HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_1);
   HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_2);
   HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_3);
@@ -233,7 +236,7 @@ int main(void)
 
     /* USER CODE BEGIN 3 */
 	  WDT_RESET;
-	uint32_t currentTime = HAL_GetTick();
+	  uint32_t currentTime = HAL_GetTick();
 
 	  static uint32_t lastTime = 0;
 	  static uint32_t blinkTime = 510;
@@ -255,10 +258,19 @@ int main(void)
 		  else
 			  blinkTime = 500;
 
-
 	  }
 
-	  //Log data in CSV format
+	  static const uint32_t baroSampleInterval = 250;
+	  static uint32_t lastBaroSampleTime = 0;
+
+	  if(currentTime - lastBaroSampleTime > baroSampleInterval)
+	  {
+		  lastBaroSampleTime=currentTime;
+
+		  baroSample();
+	  }
+
+	  // Log data in CSV format
 	  if(logStatus == FR_OK && armedState)
 	  {
 		  uint32_t startWriteTimeAll = HAL_GetTick();
@@ -268,7 +280,7 @@ int main(void)
 		  memset(logData, 0, sizeof(logData));
 		  for(uint8_t i = 0; i<NUM_ESCS; i++)
 		  {
-			  //Dont log the same data twice
+			  // Dont log the same data twice
 			  if(escData[i].timeStamp > 0 && lastPacketTime[i] != escData[i].timeStamp)
 			  {
 				  sprintf(logData+strlen(logData), "%u,%u,%u,%u,%u,%u,%u,%u,%u,%u\n", escData[i].timeStamp, i, escData[i].packetNum, escData[i].throttleInput, escData[i].rpm, escData[i].voltage, escData[i].current, escData[i].mah, escData[i].capTemp, escData[i].fetTemp);
@@ -277,6 +289,10 @@ int main(void)
 			  //logStatus = logWriteData(fileName, (uint8_t*)logData, (i+1)*256, bytesWritten);
 			  //debugTime[i] = HAL_GetTick() - startWriteTime;
 		  }
+
+		  // write pressure and temp data to log
+		  sprintf(logData+strlen(logData), "pressure %u  temp %d\n", baroGetAvg(), baroGetTempAvg());
+
 		  if(strlen(logData)>1)
 		  {
 			  logStatus = logWriteData((uint8_t*)logData, strlen(logData), bytesWritten);
